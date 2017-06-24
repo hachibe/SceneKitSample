@@ -16,7 +16,7 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         // create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene()
         
         // create and add a camera to the scene
         let cameraNode = SCNNode()
@@ -40,11 +40,37 @@ class GameViewController: UIViewController {
         ambientLightNode.light!.color = UIColor.darkGray
         scene.rootNode.addChildNode(ambientLightNode)
         
-        // retrieve the ship node
-        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
+        // create a cube node
+        let cubeGeometry = SCNBox(width: 2.0, height: 2.0, length: 2.0, chamferRadius: 0.0)
+        // create cube textures
+        let size = CGSize(width: 2, height: 2)
+        let frontImage = UIImage.colorImage(color: UIColor.red, size: size)
+        let backImage = UIImage.colorImage(color: UIColor.blue, size: size)
+        let leftImage = UIImage.colorImage(color: UIColor.green, size: size)
+        let rightImage = UIImage.colorImage(color: UIColor.yellow, size: size)
+        let topImage = UIImage.colorImage(color: UIColor.black, size: size)
+        let bottomImage = UIImage.colorImage(color: UIColor.white, size: size)
+        let frontMaterial = SCNMaterial()
+        frontMaterial.diffuse.contents = frontImage
+        let backMaterial = SCNMaterial()
+        backMaterial.diffuse.contents = backImage
+        let leftMaterial = SCNMaterial()
+        leftMaterial.diffuse.contents = leftImage
+        let rightMaterial = SCNMaterial()
+        rightMaterial.diffuse.contents = rightImage
+        let topMaterial = SCNMaterial()
+        topMaterial.diffuse.contents = topImage
+        let bottomMaterial = SCNMaterial()
+        bottomMaterial.diffuse.contents = bottomImage
+        
+        cubeGeometry.materials = [frontMaterial, rightMaterial, backMaterial, leftMaterial, topMaterial, bottomMaterial]
+        
+        let cubeNode = SCNNode(geometry: cubeGeometry)
+        cubeNode.position = SCNVector3(x: 0, y: 0, z: 0)
+        scene.rootNode.addChildNode(cubeNode)
         
         // animate the 3d object
-        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
+        cubeNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -117,10 +143,21 @@ class GameViewController: UIViewController {
             return .all
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
 }
+
+extension UIImage {
+    class func colorImage(color: UIColor, size: CGSize) -> UIImage {
+        UIGraphicsBeginImageContext(size)
+        
+        let rect = CGRect(origin: CGPoint.zero, size: size)
+        let context = UIGraphicsGetCurrentContext()!
+        context.setFillColor(color.cgColor)
+        context.fill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+}
+
