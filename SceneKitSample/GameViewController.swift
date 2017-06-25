@@ -44,7 +44,29 @@ class GameViewController: UIViewController {
         let cubeGeometry = SCNBox(width: 2.0, height: 2.0, length: 2.0, chamferRadius: 0.0)
         // create cube textures
         let frontMaterial = SCNMaterial()
-        frontMaterial.diffuse.contents = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+//        frontMaterial.diffuse.contents = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        let font = UIFont.boldSystemFont(ofSize: 20)
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        style.lineBreakMode = .byClipping
+        let shadow = NSShadow()
+        shadow.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        shadow.shadowColor = UIColor.darkGray
+        shadow.shadowBlurRadius = 0
+        let attributes = [
+            NSAttributedStringKey.font: font,
+            NSAttributedStringKey.paragraphStyle: style,
+            NSAttributedStringKey.shadow: shadow,
+            NSAttributedStringKey.foregroundColor: UIColor.black,
+            NSAttributedStringKey.backgroundColor: UIColor.white]
+        let frontString = "前" as NSString
+        let frontImage = frontString.image(with: attributes,
+                                           at: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 24)))
+        // 上下左右に黒い部分ができる
+//        let frontImage = frontString.image(with: attributes,
+//                                           at: CGRect(origin: CGPoint(x: 1, y: 2), size: CGSize(width: 28, height: 28)))
+        frontMaterial.diffuse.contents = frontImage
+        
         let backMaterial = SCNMaterial()
         backMaterial.diffuse.contents = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         let leftMaterial = SCNMaterial()
@@ -135,5 +157,15 @@ class GameViewController: UIViewController {
         } else {
             return .all
         }
+    }
+}
+
+extension NSString {
+    func image(with attributes: [NSAttributedStringKey: Any]? = nil, at rect: CGRect) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
+        self.draw(in: rect, withAttributes: attributes)
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
     }
 }
