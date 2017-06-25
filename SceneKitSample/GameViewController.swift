@@ -43,25 +43,18 @@ class GameViewController: UIViewController {
         // create a cube node
         let cubeGeometry = SCNBox(width: 2.0, height: 2.0, length: 2.0, chamferRadius: 0.0)
         // create cube textures
-        let size = CGSize(width: 2, height: 2)
-        let frontImage = UIImage.colorImage(color: UIColor.red, size: size)
-        let backImage = UIImage.colorImage(color: UIColor.blue, size: size)
-        let leftImage = UIImage.colorImage(color: UIColor.green, size: size)
-        let rightImage = UIImage.colorImage(color: UIColor.yellow, size: size)
-        let topImage = UIImage.colorImage(color: UIColor.black, size: size)
-        let bottomImage = UIImage.colorImage(color: UIColor.white, size: size)
         let frontMaterial = SCNMaterial()
-        frontMaterial.diffuse.contents = frontImage
+        frontMaterial.diffuse.contents = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         let backMaterial = SCNMaterial()
-        backMaterial.diffuse.contents = backImage
+        backMaterial.diffuse.contents = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         let leftMaterial = SCNMaterial()
-        leftMaterial.diffuse.contents = leftImage
+        leftMaterial.diffuse.contents = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         let rightMaterial = SCNMaterial()
-        rightMaterial.diffuse.contents = rightImage
+        rightMaterial.diffuse.contents = #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1)
         let topMaterial = SCNMaterial()
-        topMaterial.diffuse.contents = topImage
+        topMaterial.diffuse.contents = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         let bottomMaterial = SCNMaterial()
-        bottomMaterial.diffuse.contents = bottomImage
+        bottomMaterial.diffuse.contents = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         
         cubeGeometry.materials = [frontMaterial, rightMaterial, backMaterial, leftMaterial, topMaterial, bottomMaterial]
         
@@ -144,20 +137,3 @@ class GameViewController: UIViewController {
         }
     }
 }
-
-extension UIImage {
-    class func colorImage(color: UIColor, size: CGSize) -> UIImage {
-        UIGraphicsBeginImageContext(size)
-        
-        let rect = CGRect(origin: CGPoint.zero, size: size)
-        let context = UIGraphicsGetCurrentContext()!
-        context.setFillColor(color.cgColor)
-        context.fill(rect)
-        let image = UIGraphicsGetImageFromCurrentImageContext()!
-        
-        UIGraphicsEndImageContext()
-        
-        return image
-    }
-}
-
