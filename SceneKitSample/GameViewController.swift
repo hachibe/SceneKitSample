@@ -199,14 +199,26 @@ class GameViewController: UIViewController {
                 guard let image = snapshot?.image, let scnView = self.view as? SCNView, let scene = scnView.scene else {
                     return
                 }
-                let planeGeometry = SCNPlane(width: image.size.width/20, height: image.size.height/20)
-                let material = SCNMaterial()
-                material.diffuse.contents = image
-                planeGeometry.firstMaterial = material
-                let planeNode = SCNNode(geometry: planeGeometry)
-                planeNode.position = SCNVector3(x: 0, y: 0, z: 0)
-                planeNode.rotation = SCNVector4(1, 0, 0, -0.5 * Float.pi)
-                scene.rootNode.addChildNode(planeNode)
+                let mapGeometry = SCNPlane(width: image.size.width/20, height: image.size.height/20)
+                let mapMaterial = SCNMaterial()
+                mapMaterial.diffuse.contents = image
+                mapGeometry.firstMaterial = mapMaterial
+                let mapNode = SCNNode(geometry: mapGeometry)
+                mapNode.position = SCNVector3(x: 0, y: 0, z: 0)
+                mapNode.rotation = SCNVector4(1, 0, 0, -0.5 * Float.pi) // x軸で-90度回転(奥に倒す感じ)
+                scene.rootNode.addChildNode(mapNode)
+                
+                // 地図の裏面をグレーにする
+                let frontGeometry = SCNPlane(width: mapGeometry.width, height: mapGeometry.height)
+                let frontMaterial = SCNMaterial()
+                frontMaterial.cullMode = .front
+                frontMaterial.diffuse.contents = #colorLiteral(red: 0.7233663201, green: 0.7233663201, blue: 0.7233663201, alpha: 1)
+                frontGeometry.firstMaterial = frontMaterial
+                let frontNode = SCNNode(geometry: frontGeometry)
+                frontNode.position = mapNode.position
+                frontNode.position.y -= 0.01 // 完全に重なるとブレるため、ちょっと下にずらす
+                frontNode.rotation = mapNode.rotation
+                scene.rootNode.addChildNode(frontNode)
             }
         })
     }
