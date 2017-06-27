@@ -47,10 +47,23 @@ class GameViewController: UIViewController {
         let cubeGeometry = self.cubeGeometry()
         let cubeNode = SCNNode(geometry: cubeGeometry)
         cubeNode.position = SCNVector3(x: 0, y: Float(cubeGeometry.height / 2), z: 0)
+        // move up a cube node and activate gravity
+        cubeNode.transform = SCNMatrix4Translate(cubeNode.transform, 0, 5, 0)
+        cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        cubeNode.physicsBody?.restitution = 1 // 反発係数(デフォルト0.5)
+        scene.physicsWorld.gravity = SCNVector3Make(0, -98, 0) // 重力(デフォルト-9.8)
         scene.rootNode.addChildNode(cubeNode)
         
+        // create a floor
+        let floor = SCNFloor()
+        let floorNode = SCNNode(geometry: floor)
+        floorNode.position = SCNVector3(0, -0.1, 0) // 地図に重ならないようちょっと下に
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        scene.rootNode.addChildNode(floorNode)
+        
         // animate the 3d object
-        cubeNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
+        // 回転しているとなかなか落下してくれないのでコメントアウト
+//        cubeNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
         
         // create a map image plane node
         setupLocation()
@@ -216,16 +229,17 @@ class GameViewController: UIViewController {
                 scene.rootNode.addChildNode(mapNode)
                 
                 // 地図の裏面をグレーにする
-                let frontGeometry = SCNPlane(width: mapGeometry.width, height: mapGeometry.height)
-                let frontMaterial = SCNMaterial()
-                frontMaterial.cullMode = .front
-                frontMaterial.diffuse.contents = #colorLiteral(red: 0.7233663201, green: 0.7233663201, blue: 0.7233663201, alpha: 1)
-                frontGeometry.firstMaterial = frontMaterial
-                let frontNode = SCNNode(geometry: frontGeometry)
-                frontNode.position = mapNode.position
-                frontNode.position.y -= 0.01 // 完全に重なるとブレるため、ちょっと下にずらす
-                frontNode.rotation = mapNode.rotation
-                scene.rootNode.addChildNode(frontNode)
+                // →floorに置き換えたためコメントアウト
+//                let frontGeometry = SCNPlane(width: mapGeometry.width, height: mapGeometry.height)
+//                let frontMaterial = SCNMaterial()
+//                frontMaterial.cullMode = .front
+//                frontMaterial.diffuse.contents = #colorLiteral(red: 0.7233663201, green: 0.7233663201, blue: 0.7233663201, alpha: 1)
+//                frontGeometry.firstMaterial = frontMaterial
+//                let frontNode = SCNNode(geometry: frontGeometry)
+//                frontNode.position = mapNode.position
+//                frontNode.position.y -= 0.01 // 完全に重なるとブレるため、ちょっと下にずらす
+//                frontNode.rotation = mapNode.rotation
+//                scene.rootNode.addChildNode(frontNode)
             }
         })
     }
