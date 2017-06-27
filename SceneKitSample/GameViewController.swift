@@ -142,12 +142,19 @@ class GameViewController: UIViewController {
         shadow.shadowOffset = CGSize(width: 0.5, height: 0.5)
         shadow.shadowColor = UIColor.darkGray
         shadow.shadowBlurRadius = 0
+        // Swift4
+//        let attributes = [
+//            NSAttributedStringKey.font: font,
+//            NSAttributedStringKey.paragraphStyle: style,
+//            NSAttributedStringKey.shadow: shadow,
+//            NSAttributedStringKey.foregroundColor: UIColor.black,
+//            NSAttributedStringKey.backgroundColor: UIColor.white]
         let attributes = [
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.paragraphStyle: style,
-            NSAttributedStringKey.shadow: shadow,
-            NSAttributedStringKey.foregroundColor: UIColor.black,
-            NSAttributedStringKey.backgroundColor: UIColor.white]
+            NSFontAttributeName: font,
+            NSParagraphStyleAttributeName: style,
+            NSShadowAttributeName: shadow,
+            NSForegroundColorAttributeName: UIColor.black,
+            NSBackgroundColorAttributeName: UIColor.white]
         let frontString = "前" as NSString
         let frontImage = frontString.image(with: attributes,
                                            at: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 24)))
@@ -240,7 +247,9 @@ extension GameViewController: CLLocationManagerDelegate {
 
 // MARK: - NSString
 extension NSString {
-    func image(with attributes: [NSAttributedStringKey: Any]? = nil, at rect: CGRect) -> UIImage {
+    // Swift4
+//    func image(with attributes: [NSAttributedStringKey: Any]? = nil, at rect: CGRect) -> UIImage {
+    func image(with attributes: [String: Any]? = nil, at rect: CGRect) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
         self.draw(in: rect, withAttributes: attributes)
         let image = UIGraphicsGetImageFromCurrentImageContext()!
