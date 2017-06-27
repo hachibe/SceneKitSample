@@ -50,8 +50,8 @@ class GameViewController: UIViewController {
         // move up a cube node and activate gravity
         cubeNode.transform = SCNMatrix4Translate(cubeNode.transform, 0, 5, 0)
         cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        cubeNode.physicsBody?.restitution = 1 // 反発係数(デフォルト0.5)
-        scene.physicsWorld.gravity = SCNVector3Make(0, -98, 0) // 重力(デフォルト-9.8)
+//        cubeNode.physicsBody?.restitution = 1 // 反発係数(デフォルト0.5)
+//        scene.physicsWorld.gravity = SCNVector3Make(0, -98, 0) // 重力(デフォルト-9.8)
         scene.rootNode.addChildNode(cubeNode)
         
         // create a floor
@@ -60,6 +60,12 @@ class GameViewController: UIViewController {
         floorNode.position = SCNVector3(0, -0.1, 0) // 地図に重ならないようちょっと下に
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         scene.rootNode.addChildNode(floorNode)
+        
+        // setup contact
+        scene.physicsWorld.contactDelegate = self
+        let cubeNodeCategory = 1
+        cubeNode.physicsBody?.categoryBitMask = cubeNodeCategory
+        floorNode.physicsBody?.contactTestBitMask = cubeNodeCategory
         
         // animate the 3d object
         // 回転しているとなかなか落下してくれないのでコメントアウト
@@ -255,6 +261,17 @@ extension GameViewController: CLLocationManagerDelegate {
             break
         case .authorizedAlways, .authorizedWhenInUse:
             break
+        }
+    }
+}
+
+extension GameViewController: SCNPhysicsContactDelegate {
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        // add particle
+        if contact.nodeA.particleSystems == nil {
+            if let bokeh = SCNParticleSystem(named: "BokehParticleSystem.scnp", inDirectory: "Scene.scnassets") {
+                contact.nodeA.addParticleSystem(bokeh)
+            }
         }
     }
 }

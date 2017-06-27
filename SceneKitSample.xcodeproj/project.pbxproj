@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C876BA91F02BBE7007214A2 /* Scene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C876BA81F02BBE7007214A2 /* Scene.scnassets */; };
 		8C966DBC1EFEB64B00B4D297 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C966DBB1EFEB64B00B4D297 /* AppDelegate.swift */; };
 		8C966DC01EFEB64B00B4D297 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C966DBF1EFEB64B00B4D297 /* GameViewController.swift */; };
 		8C966DC31EFEB64B00B4D297 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C966DC11EFEB64B00B4D297 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C876BA81F02BBE7007214A2 /* Scene.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Scene.scnassets; sourceTree = "<group>"; };
 		8C966DB81EFEB64B00B4D297 /* SceneKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C966DBB1EFEB64B00B4D297 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C966DBF1EFEB64B00B4D297 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				8C966DC41EFEB64B00B4D297 /* Assets.xcassets */,
 				8C966DC61EFEB64B00B4D297 /* LaunchScreen.storyboard */,
 				8C966DC91EFEB64B00B4D297 /* Info.plist */,
+				8C876BA81F02BBE7007214A2 /* Scene.scnassets */,
 			);
 			path = SceneKitSample;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 			files = (
 				8C966DC81EFEB64B00B4D297 /* LaunchScreen.storyboard in Resources */,
 				8C966DC51EFEB64B00B4D297 /* Assets.xcassets in Resources */,
+				8C876BA91F02BBE7007214A2 /* Scene.scnassets in Resources */,
 				8C966DC31EFEB64B00B4D297 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
